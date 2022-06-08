@@ -23,10 +23,11 @@ public class MainScene extends Scene {
     public static float fTimer;
     private static Sprite bg;
     private static StageDisplay stageDisplay;
-    public static int stage;
+    public static int stage = 1;
+    private boolean isGameOver = false;
 
     public static enum Layer {
-        bg, slime, blob, score, stage, controller, COUNT;
+        bg, slime, blob, score, stage, gameover, controller, COUNT;
     }
 
     public static int[] BG_BITMAP_IDS = {
@@ -70,8 +71,6 @@ public class MainScene extends Scene {
     public void init() {
         super.init();
 
-        stage = 1;
-
         initLayers(Layer.COUNT.ordinal());
 
         bg = new Sprite(Metrics.width / 2, Metrics.height / 2, Metrics.width, Metrics.height,
@@ -110,13 +109,41 @@ public class MainScene extends Scene {
                 Metrics.size(R.dimen.timer_guage_thickness_bg), R.color.red, Metrics.width / 2);
     }
 
+    private void CheckGame(){
+        if(score.get() > 1000){
+            stage++;
+            if(stage <= 3) {
+                init();
+            }
+            else {
+                GameOver();
+            }
+        }
+        else {
+               GameOver();
+        }
+    }
+
+    private void GameOver(){
+        if(!isGameOver) {
+            Sprite gameOver = new Sprite(Metrics.width / 2, Metrics.height / 2, Metrics.width, Metrics.width,
+                    R.mipmap.gameover);
+            add(Layer.gameover.ordinal(), gameOver);
+            isGameOver = true;
+        }
+    }
+
     @Override
     public void end() {
         Sound.stopMusic();
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event){
+    public boolean onTouchEvent(MotionEvent event) {
+        if(isGameOver){
+            return false;
+        }
+
         slimes = objectsAt(Layer.slime.ordinal());
 
         for(GameObject gameObject: slimes){
@@ -145,6 +172,9 @@ public class MainScene extends Scene {
         }
 
         fTimer = 60.0f - elapsedTime;
+        if(fTimer < 0){
+            CheckGame();
+        }
 
         timer.setValue(fTimer / 60.0f);
     }
