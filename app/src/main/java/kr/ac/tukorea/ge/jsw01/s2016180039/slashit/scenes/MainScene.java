@@ -25,7 +25,7 @@ public class MainScene extends Scene {
 
         initLayers(Layer.COUNT.ordinal());
 
-        add(Layer.slime.ordinal(), new SlimeGen());
+        add(Layer.controller.ordinal(), new SlimeGen());
 
         score = new Score(R.mipmap.numbers, 0f, 0f, 200f);
 

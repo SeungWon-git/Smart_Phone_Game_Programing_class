@@ -1,5 +1,9 @@
 package kr.ac.tukorea.ge.jsw01.s2016180039.slashit.scenes;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
+
 import java.util.Random;
 
 import kr.ac.tukorea.ge.jsw01.framework.game.RecycleBin;
@@ -17,6 +21,10 @@ public class Slime extends Sprite implements Recyclable {
     private Type slimeType;
     private float xSpeed, ySpeed;
     private float gravity;
+    private int size = 0;
+    private Paint paint = new Paint();
+    private RectF rect = new RectF();
+    private float rSpeed;
 
     private static int[] BITMAP_IDS = {
             R.mipmap.eye_blue, R.mipmap.eye_brown, R.mipmap.eye_white,
@@ -33,59 +41,66 @@ public class Slime extends Sprite implements Recyclable {
         COUNT, RANDOM
     }
 
-    public Slime(int iSize, Type type, boolean dirRight) {
-        super(-Metrics.height / iSize / 2, Metrics.height - random.nextInt(Metrics.height / 5) * (iSize / 4),
-                Metrics.height / iSize, Metrics.height / iSize, BITMAP_IDS[random.nextInt(BITMAP_IDS.length)]);
+    public Slime(int tSize, Type type, boolean dirRight) {
+        super(-Metrics.height / tSize / 2, Metrics.height - random.nextInt(Metrics.height / 5) * (tSize / 4),
+                Metrics.height / tSize / 2, Metrics.height / tSize / 2, BITMAP_IDS[random.nextInt(BITMAP_IDS.length)]);
 
         if (dirRight == false) {
-            x = Metrics.width + Metrics.height / iSize / 2;
+            x = Metrics.width + Metrics.height / tSize / 2;
         }
 
-        gravity = Metrics.height / 150;
+        size = tSize;
     }
 
-    private void init(int iSize, Type type, boolean dirRight) {
+    private void init(Type type, boolean dirRight) {
         if (type == Type.RANDOM) {
             type = Type.values()[random.nextInt(Type.COUNT.ordinal())];
         }
         this.slimeType = type;
 
+        gravity = Metrics.height / 150;
+
+        paint.setColor(random.nextInt());
+
+        rSpeed = random.nextInt(30);
+
         if (dirRight == true) {
-            this.xSpeed = Metrics.width / 15 * iSize;
+            this.xSpeed = Metrics.width / 15 * size;
         } else {
-            this.xSpeed = -(Metrics.width / 15 * iSize);
+            this.xSpeed = -(Metrics.width / 15 * size);
         }
-        this.ySpeed = -(Metrics.height / 2 + random.nextInt(Metrics.height / 4 / iSize));
+        this.ySpeed = -(Metrics.height / 2 + random.nextInt(Metrics.height / 4 / size));
     }
 
     public static Slime get(Size size, Type type) {
         Slime slime = (Slime) RecycleBin.get(Slime.class);
         boolean dirRight = random.nextBoolean();
-        int iSize = 0;
+        int tSize = 0;
 
         if (size == Size.big) {
-            iSize = random.nextInt(3) + 5;
+            tSize = random.nextInt(3) + 5;
         } else if (size == Size.medium) {
-            iSize = random.nextInt(3) + 9;
+            tSize = random.nextInt(3) + 9;
         } else if (size == Size.small) {
-            iSize = random.nextInt(3) + 12;
+            tSize = random.nextInt(3) + 12;
         }
 
         if (slime == null) {
-            slime = new Slime(iSize, type, dirRight);
+            slime = new Slime(tSize, type, dirRight);
         } else {
             if (dirRight == false) {
-                slime.x = Metrics.width + Metrics.height / iSize / 2;
+                slime.x = Metrics.width + Metrics.height / tSize / 2;
             }
             else{
-                slime.x = -Metrics.height / iSize / 2;
+                slime.x = -Metrics.height / tSize / 2;
             }
-            slime.y = Metrics.height - random.nextInt(Metrics.height / 5) * (iSize / 4);
-            slime.setDstRect(Metrics.height / iSize, Metrics.height / iSize);
+            slime.y = Metrics.height - random.nextInt(Metrics.height / 5) * (tSize / 4);
+            slime.setDstRect(Metrics.height / tSize / 2, Metrics.height / tSize / 2);
             slime.bitmap = BitmapPool.get(BITMAP_IDS[random.nextInt(BITMAP_IDS.length)]);
+            slime.size = tSize;
         }
 
-        slime.init(iSize, type, dirRight);
+        slime.init(type, dirRight);
 
         return slime;
     }
@@ -95,6 +110,7 @@ public class Slime extends Sprite implements Recyclable {
         x += xSpeed * frameTime;
         y += ySpeed * frameTime;
         ySpeed += gravity;
+        rSpeed += rSpeed * frameTime;
 
         if (x > Metrics.width + Metrics.height / 10 || x < -Metrics.height / 10
                 || y > Metrics.height + Metrics.height / 10){
@@ -103,6 +119,19 @@ public class Slime extends Sprite implements Recyclable {
         }
 
         setDstRectWithRadius();
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        canvas.save();
+
+        rect.set(x - Metrics.height / size / 2, y - Metrics.height / size / 2,
+                x + Metrics.height / size / 2, y + Metrics.height / size / 2);
+        canvas.rotate(rSpeed, rect.centerX(), rect.centerY());
+        canvas.drawRoundRect(rect, Metrics.height / size / 8, Metrics.height / size / 8, paint);
+
+        canvas.restore();
+        super.draw(canvas);
     }
 
     @Override
