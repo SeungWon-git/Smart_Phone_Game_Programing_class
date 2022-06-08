@@ -22,14 +22,20 @@ public class MainScene extends Scene {
     private static Gauge timer;
     public static float fTimer;
     private static Sprite bg;
+    private static StageDisplay stageDisplay;
     public static int stage;
 
     public static enum Layer {
-        bg, slime, score, controller, COUNT;
+        bg, slime, score, stage, controller, COUNT;
     }
 
     public static int[] BG_BITMAP_IDS = {
         R.mipmap.grass1, R.mipmap.grass2, R.mipmap.grass3, R.mipmap.overgrowth
+    };
+
+    public static int[] STAGE_BITMAP_IDS = {
+            R.mipmap.stage1, R.mipmap.stage2, R.mipmap.stage3,
+            R.mipmap.stage4, R.mipmap.stage5
     };
 
     public static int[] BGM_SOUND_IDS = {
@@ -71,6 +77,8 @@ public class MainScene extends Scene {
         bg = new Sprite(Metrics.width / 2, Metrics.height / 2, Metrics.width, Metrics.height,
                 BG_BITMAP_IDS[stage - 1]);
 
+        add(Layer.bg.ordinal(), bg);
+
         Sound.playMusic(BGM_SOUND_IDS[stage - 1]);
 
         for(int sfx: SFX_SPAWN_IDS) {
@@ -85,8 +93,6 @@ public class MainScene extends Scene {
             Sound.loadEffect(sfx);
         }
 
-        add(Layer.bg.ordinal(), bg);
-
         add(Layer.controller.ordinal(), new SlimeGen());
 
         score = new Score(R.mipmap.numbers, 0f, 0f, 200f);
@@ -94,6 +100,11 @@ public class MainScene extends Scene {
         score.set(0);
 
         add(Layer.score.ordinal(), score);
+
+        stageDisplay = new StageDisplay(Metrics.width / 2, Metrics.height / 2 + Metrics.height / 4,
+                Metrics.width, Metrics.width / 4, STAGE_BITMAP_IDS[stage - 1]);
+
+        add(Layer.stage.ordinal(), stageDisplay);
 
         timer = new Gauge(Metrics.size(R.dimen.timer_guage_thickness_fg), R.color.yellow,
                 Metrics.size(R.dimen.timer_guage_thickness_bg), R.color.red, Metrics.width / 2);

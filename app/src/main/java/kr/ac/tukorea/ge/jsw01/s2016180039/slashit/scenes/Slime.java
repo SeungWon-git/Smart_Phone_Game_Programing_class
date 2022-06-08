@@ -35,8 +35,6 @@ public class Slime extends Sprite implements Recyclable {
             R.mipmap.eye_orange, R.mipmap.eye_purple, R.mipmap.eye_green
     };
 
-
-
     public enum Size {
         small, medium, big
     }
