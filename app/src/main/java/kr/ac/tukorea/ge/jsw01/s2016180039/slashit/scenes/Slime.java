@@ -155,6 +155,7 @@ public class Slime extends Sprite implements Recyclable {
         float beforeY = y;
         float beforeXSpeed = xSpeed;
         int beforeSlshNum = slashNum;
+        int beforePaintNum = paint.getColor();
 
         if(beforeSize * 1.5f > 35f) {
             MainScene.get().score.add(100);
@@ -169,6 +170,7 @@ public class Slime extends Sprite implements Recyclable {
         xSpeed = beforeXSpeed * 0.6f;
         ySpeed *= 0.7f;
         slashNum = beforeSlshNum + 1;
+        paint.setColor(beforePaintNum);
 
         Slime dSlime = new Slime();
         dSlime.init(beforeSize * 1.5f, slimeType);
@@ -177,6 +179,7 @@ public class Slime extends Sprite implements Recyclable {
         dSlime.xSpeed = -beforeXSpeed * 0.6f;
         dSlime.ySpeed *= 0.7f;
         dSlime.slashNum = beforeSlshNum + 1;
+        dSlime.paint.setColor(beforePaintNum);
         MainScene.get().add(MainScene.Layer.slime.ordinal(), dSlime);
     }
 
