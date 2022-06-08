@@ -26,7 +26,7 @@ public class MainScene extends Scene {
     public static int stage;
 
     public static enum Layer {
-        bg, slime, score, stage, controller, COUNT;
+        bg, slime, blob, score, stage, controller, COUNT;
     }
 
     public static int[] BG_BITMAP_IDS = {

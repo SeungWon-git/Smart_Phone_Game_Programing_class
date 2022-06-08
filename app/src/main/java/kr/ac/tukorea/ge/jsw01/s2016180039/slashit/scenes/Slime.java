@@ -22,12 +22,11 @@ public class Slime extends Sprite implements Recyclable {
     private int slashNum;
     private Type slimeType;
     private float xSpeed, ySpeed;
-    private float gravity;
+    private final float gravity = Metrics.height / 150;;
     private float fSize;
     private Paint paint = new Paint();
     private RectF rect = new RectF();
     private float rSpeed;
-    //private Sound sfx = new Sound();
 
     private static int[] BITMAP_IDS = {
             R.mipmap.eye_blue, R.mipmap.eye_brown, R.mipmap.eye_white,
@@ -68,8 +67,6 @@ public class Slime extends Sprite implements Recyclable {
         slimeType = type;
 
         slashNum = 0;
-
-        gravity = Metrics.height / 150;
 
         paint.setColor(random.nextInt());
 
@@ -133,11 +130,23 @@ public class Slime extends Sprite implements Recyclable {
         if(Math.abs(event.getX()- this.x) < Metrics.height / fSize / 3 &&
                 Math.abs(event.getY()- this.y) < Metrics.height / fSize / 3) {
             MainScene.get().score.add(10 * (slashNum + 1));
+            GenBlob();
             Divide();
             Sound.playEffect(MainScene.SFX_HIT_IDS[random.nextInt(MainScene.SFX_HIT_IDS.length)]);
         }
 
         return true;
+    }
+
+    public void GenBlob(){
+        Blob blob;
+        int num = random.nextInt(5) + 5;
+
+        for(int n = 0; n < num; n++){
+            blob = new Blob(x, y, Metrics.height / fSize / 5 + random.nextInt((int)(Metrics.height / fSize / 5)),
+                    random, paint.getColor());
+            MainScene.get().add(MainScene.Layer.blob.ordinal(), blob);
+        }
     }
 
     public void Divide(){
