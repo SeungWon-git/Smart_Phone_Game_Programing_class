@@ -5,13 +5,17 @@ import android.graphics.Canvas;
 import kr.ac.tukorea.ge.jsw01.framework.interfaces.GameObject;
 
 public class SlimeGen implements GameObject {
-    private float genInterval;
-    private int stage;
-    private float time;
+    private static float genInterval;
+    private static int stage;
+    private static float time;
 
     public SlimeGen() {
         genInterval = 3.0f;
         stage = 1;
+    }
+
+    public static int GetStage(){
+        return stage;
     }
 
     @Override
@@ -35,24 +39,7 @@ public class SlimeGen implements GameObject {
     }
 
     private void spawn() {
-        Slime slime = null;
-
-        if(stage == 1) {
-            slime = Slime.get(Slime.Size.big, Slime.Type.normal);
-        }
-        else if(stage == 2) {
-            slime = Slime.get(Slime.Size.medium, Slime.Type.normal);
-        }
-        else if(stage == 3) {
-            slime = Slime.get(Slime.Size.small, Slime.Type.normal);
-        }
-        else if(stage == 4) {
-            //slime = Slime.get(Slime.Size.big, Slime.Type.normal);
-        }
-        else if(stage == 5) {
-            //slime = Slime.get(Slime.Size.big, Slime.Type.normal);
-        }
-
+        Slime slime = Slime.get();
 
         MainScene.get().add(MainScene.Layer.slime.ordinal(), slime);
     }

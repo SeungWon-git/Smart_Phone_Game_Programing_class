@@ -3,6 +3,7 @@ package kr.ac.tukorea.ge.jsw01.s2016180039.slashit.scenes;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.view.MotionEvent;
 
 import java.util.Random;
 
@@ -72,8 +73,28 @@ public class Slime extends Sprite implements Recyclable {
         this.ySpeed = -(Metrics.height / 2 + random.nextInt(Metrics.height / 4 / size));
     }
 
-    public static Slime get(Size size, Type type) {
+    public static Slime get() {
         Slime slime = (Slime) RecycleBin.get(Slime.class);
+        Size size = null;
+        Type type = null;
+
+        if(SlimeGen.GetStage() == 1) {
+            size = Size.big;
+            type = Type.normal;
+        }
+        else if(SlimeGen.GetStage() == 2) {
+            size = Size.big;
+            type = Type.normal;
+        }
+        else if(SlimeGen.GetStage() == 3) {
+            size = Size.big;
+            type = Type.normal;
+        }
+        else if(SlimeGen.GetStage() == 4) {
+        }
+        else if(SlimeGen.GetStage() == 5) {
+        }
+
         boolean dirRight = random.nextBoolean();
         int tSize = 0;
 
@@ -103,6 +124,20 @@ public class Slime extends Sprite implements Recyclable {
         slime.init(type, dirRight);
 
         return slime;
+    }
+
+    public boolean onTouchEvent(MotionEvent event){
+        if (event.getAction() != MotionEvent.ACTION_DOWN) {
+            return false;
+        }
+
+        if(Math.abs(event.getX()- this.x) < Metrics.height / size / 3 &&
+                Math.abs(event.getY()- this.y) < Metrics.height / size / 3) {
+            MainScene.get().score.add(10);
+            MainScene.get().remove(this);
+        }
+
+        return true;
     }
 
     @Override
