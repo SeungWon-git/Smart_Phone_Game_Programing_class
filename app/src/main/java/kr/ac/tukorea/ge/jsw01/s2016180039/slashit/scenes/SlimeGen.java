@@ -6,22 +6,16 @@ import kr.ac.tukorea.ge.jsw01.framework.interfaces.GameObject;
 
 public class SlimeGen implements GameObject {
     private static float genInterval;
-    private static int stage;
     private static float time;
 
     public SlimeGen() {
         genInterval = 3.0f;
-        stage = 1;
-    }
-
-    public static int GetStage(){
-        return stage;
     }
 
     @Override
     public void update(float frameTime) {
         time += frameTime;
-        switch (stage){
+        switch (MainScene.stage){
             case 1:
                 genInterval = 3.0f;
                 break;

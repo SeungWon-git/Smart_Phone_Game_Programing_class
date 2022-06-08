@@ -48,6 +48,17 @@ public class Sound {
         pool.play(soundId, 1f, 1f, 1, 0, 1f);
     }
 
+    public static void loadEffect(int resId) {
+        SoundPool pool = getSoundPool();
+        int soundId;
+        if (soundIdMap.containsKey(resId)) {
+            soundId = soundIdMap.get(resId);
+        } else {
+            soundId = pool.load(GameView.view.getContext(), resId, 1);
+            soundIdMap.put(resId, soundId);
+        }
+    }
+
     private static SoundPool getSoundPool() {
         if (soundPool != null) return soundPool;
 

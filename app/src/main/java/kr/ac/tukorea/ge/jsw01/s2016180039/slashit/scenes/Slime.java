@@ -13,6 +13,7 @@ import kr.ac.tukorea.ge.jsw01.framework.objects.Sprite;
 
 import kr.ac.tukorea.ge.jsw01.framework.res.BitmapPool;
 import kr.ac.tukorea.ge.jsw01.framework.res.Metrics;
+import kr.ac.tukorea.ge.jsw01.framework.res.Sound;
 import kr.ac.tukorea.ge.jsw01.s2016180039.slashit.R;
 
 public class Slime extends Sprite implements Recyclable {
@@ -26,12 +27,15 @@ public class Slime extends Sprite implements Recyclable {
     private Paint paint = new Paint();
     private RectF rect = new RectF();
     private float rSpeed;
+    //private Sound sfx = new Sound();
 
     private static int[] BITMAP_IDS = {
             R.mipmap.eye_blue, R.mipmap.eye_brown, R.mipmap.eye_white,
             R.mipmap.eye_lightgreen, R.mipmap.eye_skyblue, R.mipmap.eye_lightbrown,
             R.mipmap.eye_orange, R.mipmap.eye_purple, R.mipmap.eye_green
     };
+
+
 
     public enum Size {
         small, medium, big
@@ -43,7 +47,6 @@ public class Slime extends Sprite implements Recyclable {
     }
 
     public Slime() {
-        //super(0, 0, 0, 0, BITMAP_IDS[0]);
     }
 
     private void init(float size, Type type) {
@@ -92,21 +95,21 @@ public class Slime extends Sprite implements Recyclable {
             slime = new Slime();
         }
 
-        if(SlimeGen.GetStage() == 1) {
+        if(MainScene.stage == 1) {
             size = Size.big;
             type = Type.normal;
         }
-        else if(SlimeGen.GetStage() == 2) {
+        else if(MainScene.stage == 2) {
             size = Size.medium;
             type = Type.normal;
         }
-        else if(SlimeGen.GetStage() == 3) {
+        else if(MainScene.stage == 3) {
             size = Size.small;
             type = Type.normal;
         }
-        else if(SlimeGen.GetStage() == 4) {
+        else if(MainScene.stage == 4) {
         }
-        else if(SlimeGen.GetStage() == 5) {
+        else if(MainScene.stage == 5) {
         }
 
         if (size == Size.big) {
@@ -118,6 +121,8 @@ public class Slime extends Sprite implements Recyclable {
         }
 
         slime.init(tSize, type);
+
+        Sound.playEffect(MainScene.SFX_SPAWN_IDS[random.nextInt(MainScene.SFX_SPAWN_IDS.length)]);
 
         return slime;
     }
@@ -131,6 +136,7 @@ public class Slime extends Sprite implements Recyclable {
                 Math.abs(event.getY()- this.y) < Metrics.height / fSize / 3) {
             MainScene.get().score.add(10 * (slashNum + 1));
             Divide();
+            Sound.playEffect(MainScene.SFX_HIT_IDS[random.nextInt(MainScene.SFX_HIT_IDS.length)]);
         }
 
         return true;
@@ -146,6 +152,7 @@ public class Slime extends Sprite implements Recyclable {
         if(beforeSize * 1.5f > 35f) {
             MainScene.get().score.add(100);
             MainScene.get().remove(this);
+            Sound.playEffect(MainScene.SFX_DEATH_IDS[random.nextInt(MainScene.SFX_DEATH_IDS.length)]);
             return;
         }
 

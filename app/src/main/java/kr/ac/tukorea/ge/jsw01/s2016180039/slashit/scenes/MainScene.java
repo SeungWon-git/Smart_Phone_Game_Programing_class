@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import kr.ac.tukorea.ge.jsw01.framework.game.Scene;
 import kr.ac.tukorea.ge.jsw01.framework.interfaces.GameObject;
 import kr.ac.tukorea.ge.jsw01.framework.objects.Score;
+import kr.ac.tukorea.ge.jsw01.framework.objects.Sprite;
 import kr.ac.tukorea.ge.jsw01.framework.res.Metrics;
+import kr.ac.tukorea.ge.jsw01.framework.res.Sound;
 import kr.ac.tukorea.ge.jsw01.framework.util.Gauge;
 import kr.ac.tukorea.ge.jsw01.s2016180039.slashit.R;
 
@@ -18,6 +20,38 @@ public class MainScene extends Scene {
     public static Score score;
     private static ArrayList<GameObject> slimes;
     private static Gauge timer;
+    public static float fTimer;
+    private static Sprite bg;
+    public static int stage;
+
+    public static enum Layer {
+        bg, slime, score, controller, COUNT;
+    }
+
+    public static int[] BG_BITMAP_IDS = {
+        R.mipmap.grass1, R.mipmap.grass2, R.mipmap.grass3, R.mipmap.overgrowth
+    };
+
+    public static int[] BGM_SOUND_IDS = {
+            R.raw.bgm1, R.raw.bgm2, R.raw.bgm3
+    };
+
+    public static int[] SFX_SPAWN_IDS = {
+            R.raw.spawn1, R.raw.spawn2, R.raw.spawn3,
+            R.raw.spawn4, R.raw.spawn5, R.raw.spawn6,
+            R.raw.spawn7, R.raw.spawn8, R.raw.spawn9,
+            R.raw.spawn10, R.raw.spawn11, R.raw.spawn12
+    };
+
+    public static int[] SFX_DEATH_IDS = {
+            R.raw.death1, R.raw.death2, R.raw.death3,
+            R.raw.death4, R.raw.death5, R.raw.death6
+    };
+
+    public static int[] SFX_HIT_IDS = {
+            R.raw.hit1, R.raw.hit2, R.raw.hit3,
+            R.raw.hit4, R.raw.hit5, R.raw.hit6
+    };
 
     public static MainScene get() {
         if (singleton == null) {
@@ -26,14 +60,32 @@ public class MainScene extends Scene {
         return singleton;
     }
 
-    public enum Layer {
-        bg, slime, score, controller, COUNT;
-    }
 
     public void init() {
         super.init();
 
+        stage = 1;
+
         initLayers(Layer.COUNT.ordinal());
+
+        bg = new Sprite(Metrics.width / 2, Metrics.height / 2, Metrics.width, Metrics.height,
+                BG_BITMAP_IDS[stage - 1]);
+
+        Sound.playMusic(BGM_SOUND_IDS[stage - 1]);
+
+        for(int sfx: SFX_SPAWN_IDS) {
+            Sound.loadEffect(sfx);
+        }
+
+        for(int sfx: SFX_DEATH_IDS) {
+            Sound.loadEffect(sfx);
+        }
+
+        for(int sfx: SFX_HIT_IDS) {
+            Sound.loadEffect(sfx);
+        }
+
+        add(Layer.bg.ordinal(), bg);
 
         add(Layer.controller.ordinal(), new SlimeGen());
 
@@ -45,6 +97,11 @@ public class MainScene extends Scene {
 
         timer = new Gauge(Metrics.size(R.dimen.timer_guage_thickness_fg), R.color.yellow,
                 Metrics.size(R.dimen.timer_guage_thickness_bg), R.color.red, Metrics.width / 2);
+    }
+
+    @Override
+    public void end() {
+        Sound.stopMusic();
     }
 
     @Override
@@ -61,9 +118,9 @@ public class MainScene extends Scene {
 
     @Override
     public void draw(Canvas canvas) {
-        timer.draw(canvas, Metrics.width / 2, Metrics.height / 10);
-
         draw(canvas, sceneStack.size() - 1);
+
+        timer.draw(canvas, Metrics.width / 2, Metrics.height / 10);
     }
 
     @Override
@@ -76,6 +133,8 @@ public class MainScene extends Scene {
             }
         }
 
-        timer.setValue((60.0f - elapsedTime) / 60.0f);
+        fTimer = 60.0f - elapsedTime;
+
+        timer.setValue(fTimer / 60.0f);
     }
 }

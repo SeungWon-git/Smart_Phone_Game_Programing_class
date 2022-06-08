@@ -6,10 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".app.MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start"
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/tree"/>
+
+    <ImageView
+        android:layout_width="350dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="-200dp"
+        android:background="@mipmap/title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/button"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/imgbtn_states"
+        android:focusableInTouchMode="false"
         android:onClick="onBtnStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
