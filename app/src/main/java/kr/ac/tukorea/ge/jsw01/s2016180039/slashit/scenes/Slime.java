@@ -28,6 +28,7 @@ public class Slime extends Sprite implements Recyclable {
     private Paint paint = new Paint();
     private RectF rect = new RectF();
     private float rSpeed;
+    private boolean isCircle;
 
     private static int[] BITMAP_IDS = {
             R.mipmap.eye_blue, R.mipmap.eye_brown, R.mipmap.eye_white,
@@ -85,6 +86,8 @@ public class Slime extends Sprite implements Recyclable {
             xSpeed = -(Metrics.width / 15 * size);
         }
         ySpeed = -(Metrics.height / 2 + random.nextInt((int)(Metrics.height / 4 / size)));
+
+        isCircle = random.nextBoolean();
     }
 
     public static Slime get() {
@@ -226,6 +229,7 @@ public class Slime extends Sprite implements Recyclable {
         int beforePaintNum = paint.getColor();
         int setMinimalSlash = minimalSlash;
         float fastDivSpeed = 1;
+        boolean beforeIsCircle = isCircle;
 
         if(minimalSlash <= beforeSlshNum + 1){
             setMinimalSlash = 0;
@@ -250,6 +254,7 @@ public class Slime extends Sprite implements Recyclable {
         slashNum = beforeSlshNum + 1;
         paint.setColor(beforePaintNum);
         minimalSlash = setMinimalSlash;
+        isCircle = beforeIsCircle;
 
         Slime dSlime = new Slime();
         dSlime.init(beforeSize * 1.5f, slimeType);
@@ -260,6 +265,7 @@ public class Slime extends Sprite implements Recyclable {
         dSlime.slashNum = beforeSlshNum + 1;
         dSlime.paint.setColor(beforePaintNum);
         dSlime.minimalSlash = setMinimalSlash;
+        dSlime.isCircle = beforeIsCircle;
         MainScene.get().add(MainScene.Layer.slime.ordinal(), dSlime);
     }
 
@@ -288,8 +294,15 @@ public class Slime extends Sprite implements Recyclable {
 
     @Override
     public void draw(Canvas canvas) {
+        float r = Metrics.height / fSize / 8;
+
+        if(isCircle){
+            r = Metrics.height / fSize / 2;
+        }
 
         if(minimalSlash > slashNum){
+            float r_ = r + Metrics.height / fSize / 8;
+
             Paint tempPaint = new Paint();
             tempPaint.setColor(Color.BLACK);
 
@@ -298,12 +311,14 @@ public class Slime extends Sprite implements Recyclable {
             rect.set(x - Metrics.height / fSize / 2 - Metrics.height / fSize / 8, y - Metrics.height / fSize / 2 - Metrics.height / fSize / 8,
                     x + Metrics.height / fSize / 2 + Metrics.height / fSize / 8, y + Metrics.height / fSize / 2 + Metrics.height / fSize / 8);
             canvas.rotate(rSpeed, rect.centerX(), rect.centerY());
-            canvas.drawRoundRect(rect, Metrics.height / fSize / 8, Metrics.height / fSize / 8, tempPaint);
+            canvas.drawRoundRect(rect, r_, r_, tempPaint);
 
             canvas.restore();
         }
 
         if(slimeType == Type.special_fast){
+            float r_ = r - Metrics.height / fSize / 8;
+
             Paint tempPaint = new Paint();
             tempPaint.setColor(Color.YELLOW);
 
@@ -312,7 +327,7 @@ public class Slime extends Sprite implements Recyclable {
             rect.set(x - Metrics.height / fSize / 2 + Metrics.height / fSize / 8, y - Metrics.height / fSize / 2 + Metrics.height / fSize / 8,
                     x + Metrics.height / fSize / 2 - Metrics.height / fSize / 8, y + Metrics.height / fSize / 2 - Metrics.height / fSize / 8);
             canvas.rotate(rSpeed, rect.centerX(), rect.centerY());
-            canvas.drawRoundRect(rect, Metrics.height / fSize / 8, Metrics.height / fSize / 8, tempPaint);
+            canvas.drawRoundRect(rect, r_, r_, tempPaint);
 
             canvas.restore();
         }
@@ -322,7 +337,7 @@ public class Slime extends Sprite implements Recyclable {
         rect.set(x - Metrics.height / fSize / 2, y - Metrics.height / fSize / 2,
                 x + Metrics.height / fSize / 2, y + Metrics.height / fSize / 2);
         canvas.rotate(rSpeed, rect.centerX(), rect.centerY());
-        canvas.drawRoundRect(rect, Metrics.height / fSize / 8, Metrics.height / fSize / 8, paint);
+        canvas.drawRoundRect(rect, r, r, paint);
 
         canvas.restore();
         super.draw(canvas);
