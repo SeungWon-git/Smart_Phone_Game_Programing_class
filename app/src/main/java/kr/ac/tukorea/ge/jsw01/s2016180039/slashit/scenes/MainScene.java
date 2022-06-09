@@ -110,7 +110,7 @@ public class MainScene extends Scene {
     }
 
     private void CheckGame(){
-        if(score.get() > 500){
+        if(score.get() > 5000){
             stage++;
             if(stage <= 5) {
                 init();
@@ -140,15 +140,18 @@ public class MainScene extends Scene {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if(isGameOver){
+        if (isGameOver) {
             return false;
         }
 
-        slimes = objectsAt(Layer.slime.ordinal());
+        if (event.getAction() == MotionEvent.ACTION_MOVE) {
 
-        for(GameObject gameObject: slimes){
-            Slime slime = (Slime) gameObject;
-            slime.onTouchEvent(event);
+            slimes = objectsAt(Layer.slime.ordinal());
+
+            for (GameObject gameObject : slimes) {
+                Slime slime = (Slime) gameObject;
+                slime.onTouchEvent(event);
+            }
         }
 
         return true;

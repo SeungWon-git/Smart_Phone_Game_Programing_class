@@ -104,7 +104,7 @@ public class Slime extends Sprite implements Recyclable {
         if(MainScene.stage == 1) {
             rnd_size = random.nextInt(10);
 
-            if(rnd_size < 8) {
+            if(rnd_size < 6) {
                 size = Size.big;
             }
             else{
@@ -193,14 +193,10 @@ public class Slime extends Sprite implements Recyclable {
         return slime;
     }
 
-    public boolean onTouchEvent(MotionEvent event){
-        if (event.getAction() != MotionEvent.ACTION_DOWN) {
-            return false;
-        }
-
-        if(Math.abs(event.getX()- this.x) < Metrics.height / fSize / 3 &&
-                Math.abs(event.getY()- this.y) < Metrics.height / fSize / 3) {
-            MainScene.get().score.add(5 * (slashNum + 1));
+    public boolean onTouchEvent(MotionEvent event) {
+        if (Math.abs(event.getX() - this.x) < Metrics.height / fSize / 3 &&
+                Math.abs(event.getY() - this.y) < Metrics.height / fSize / 3) {
+            MainScene.get().score.add(3 * (slashNum + 1));
             GenBlob();
             Divide();
             Sound.playEffect(MainScene.SFX_HIT_IDS[random.nextInt(MainScene.SFX_HIT_IDS.length)]);
@@ -240,7 +236,7 @@ public class Slime extends Sprite implements Recyclable {
         }
 
         if(beforeSize * 1.5f > 35f) {
-            MainScene.get().score.add(50);
+            MainScene.get().score.add(30);
             MainScene.get().remove(this);
             Sound.playEffect(MainScene.SFX_DEATH_IDS[random.nextInt(MainScene.SFX_DEATH_IDS.length)]);
             return;
@@ -280,7 +276,7 @@ public class Slime extends Sprite implements Recyclable {
                 || y > Metrics.height + Metrics.height / 10) {
 
             if(minimalSlash > slashNum){
-                MainScene.get().score.add(-(minimalSlash - slashNum) * (minimalSlash - slashNum));
+                MainScene.get().score.add(-(minimalSlash - slashNum) * (minimalSlash - slashNum) * 5);
                 if(MainScene.get().score.get() < 0){
                     MainScene.get().score.set(0);
                 }
