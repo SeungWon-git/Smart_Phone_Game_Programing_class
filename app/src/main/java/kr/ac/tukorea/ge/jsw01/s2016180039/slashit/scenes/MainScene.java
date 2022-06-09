@@ -24,7 +24,7 @@ public class MainScene extends Scene {
     private static Sprite bg;
     private static StageDisplay stageDisplay;
     public static int stage = 1;
-    private boolean isGameOver = false;
+    private boolean isGameOver;
 
     public static enum Layer {
         bg, slime, blob, score, stage, gameover, controller, COUNT;
@@ -71,6 +71,8 @@ public class MainScene extends Scene {
     public void init() {
         super.init();
 
+        isGameOver = false;
+
         initLayers(Layer.COUNT.ordinal());
 
         bg = new Sprite(Metrics.width / 2, Metrics.height / 2, Metrics.width, Metrics.height,
@@ -109,14 +111,14 @@ public class MainScene extends Scene {
                 Metrics.size(R.dimen.timer_guage_thickness_bg), R.color.red, Metrics.width / 2);
     }
 
-    private void CheckGame(){
-        if(score.get() > 5000){
+    private void CheckGame() {
+        if(score.get() > 4000) {
             stage++;
             if(stage <= 5) {
                 init();
             }
             else {
-                GameOver();
+                Winner();
             }
         }
         else {
@@ -128,6 +130,15 @@ public class MainScene extends Scene {
         if(!isGameOver) {
             Sprite gameOver = new Sprite(Metrics.width / 2, Metrics.height / 2, Metrics.width, Metrics.width,
                     R.mipmap.gameover);
+            add(Layer.gameover.ordinal(), gameOver);
+            isGameOver = true;
+        }
+    }
+
+    private void Winner(){
+        if(!isGameOver) {
+            Sprite gameOver = new Sprite(Metrics.width / 2, Metrics.height / 2, Metrics.width, Metrics.width / 2,
+                    R.mipmap.winner);
             add(Layer.gameover.ordinal(), gameOver);
             isGameOver = true;
         }
