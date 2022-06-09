@@ -31,7 +31,7 @@ public class MainScene extends Scene {
     }
 
     public static int[] BG_BITMAP_IDS = {
-        R.mipmap.grass1, R.mipmap.grass2, R.mipmap.grass3, R.mipmap.overgrowth
+        R.mipmap.grass1, R.mipmap.grass2, R.mipmap.grass3, R.mipmap.overgrowth, R.mipmap.dirt
     };
 
     public static int[] STAGE_BITMAP_IDS = {
@@ -40,7 +40,7 @@ public class MainScene extends Scene {
     };
 
     public static int[] BGM_SOUND_IDS = {
-            R.raw.bgm1, R.raw.bgm2, R.raw.bgm3
+            R.raw.bgm1, R.raw.bgm2, R.raw.bgm3, R.raw.bgm4, R.raw.bgm5
     };
 
     public static int[] SFX_SPAWN_IDS = {
@@ -110,9 +110,9 @@ public class MainScene extends Scene {
     }
 
     private void CheckGame(){
-        if(score.get() > 1000){
+        if(score.get() > 500){
             stage++;
-            if(stage <= 3) {
+            if(stage <= 5) {
                 init();
             }
             else {

@@ -20,9 +20,15 @@ public class SlimeGen implements GameObject {
                 genInterval = 3.0f;
                 break;
             case 2:
-                genInterval = 2.0f;
+                genInterval = 2.5f;
                 break;
             case 3:
+                genInterval = 2.0f;
+                break;
+            case 4:
+                genInterval = 1.5f;
+                break;
+            case 5:
                 genInterval = 1.0f;
                 break;
         }

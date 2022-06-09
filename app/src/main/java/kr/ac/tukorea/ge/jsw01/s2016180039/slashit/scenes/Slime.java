@@ -1,6 +1,7 @@
 package kr.ac.tukorea.ge.jsw01.s2016180039.slashit.scenes;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.MotionEvent;
@@ -66,6 +67,12 @@ public class Slime extends Sprite implements Recyclable {
 
         slimeType = type;
 
+        if(slimeType == Type.special_penalty) {
+            minimalSlash = random.nextInt(2) + 1;
+        } else {
+            minimalSlash = 0;
+        }
+
         slashNum = 0;
 
         paint.setColor(random.nextInt());
@@ -85,26 +92,87 @@ public class Slime extends Sprite implements Recyclable {
         Size size = null;
         Type type = null;
         float tSize = 0;
+        int rnd_size, rnd_type;
 
         if (slime == null) {
             slime = new Slime();
         }
 
         if(MainScene.stage == 1) {
-            size = Size.big;
+            rnd_size = random.nextInt(10);
+
+            if(rnd_size < 8) {
+                size = Size.big;
+            }
+            else{
+                size = Size.medium;
+            }
             type = Type.normal;
         }
         else if(MainScene.stage == 2) {
-            size = Size.medium;
+            rnd_size = random.nextInt(10);
+
+            if(rnd_size < 2) {
+                size = Size.big;
+            }
+            else if(rnd_size < 6) {
+                size = Size.medium;
+            }
+            else{
+                size = Size.small;
+            }
             type = Type.normal;
         }
         else if(MainScene.stage == 3) {
-            size = Size.small;
-            type = Type.normal;
+            rnd_size = random.nextInt(10);
+            rnd_type = random.nextInt(10);
+
+            if(rnd_size < 2) {
+                size = Size.big;
+            }
+            else if(rnd_size < 6) {
+                size = Size.medium;
+            }
+            else{
+                size = Size.small;
+            }
+
+            if(rnd_type < 4) {
+                type = Type.special_penalty;
+            }
+            else{
+                type = Type.normal;
+            }
         }
         else if(MainScene.stage == 4) {
+            rnd_size = random.nextInt(10);
+
+            if(rnd_size < 2) {
+                size = Size.big;
+            }
+            else if(rnd_size < 6) {
+                size = Size.medium;
+            }
+            else{
+                size = Size.small;
+            }
+
+            type = Type.RANDOM;
         }
         else if(MainScene.stage == 5) {
+            rnd_size = random.nextInt(10);
+
+            if(rnd_size < 1) {
+                size = Size.big;
+            }
+            else if(rnd_size < 4) {
+                size = Size.medium;
+            }
+            else {
+                size = Size.small;
+            }
+
+            type = Type.RANDOM;
         }
 
         if (size == Size.big) {
@@ -129,7 +197,7 @@ public class Slime extends Sprite implements Recyclable {
 
         if(Math.abs(event.getX()- this.x) < Metrics.height / fSize / 3 &&
                 Math.abs(event.getY()- this.y) < Metrics.height / fSize / 3) {
-            MainScene.get().score.add(10 * (slashNum + 1));
+            MainScene.get().score.add(5 * (slashNum + 1));
             GenBlob();
             Divide();
             Sound.playEffect(MainScene.SFX_HIT_IDS[random.nextInt(MainScene.SFX_HIT_IDS.length)]);
@@ -156,9 +224,14 @@ public class Slime extends Sprite implements Recyclable {
         float beforeXSpeed = xSpeed;
         int beforeSlshNum = slashNum;
         int beforePaintNum = paint.getColor();
+        int setMinimalSlash = minimalSlash;
+
+        if(minimalSlash <= beforeSlshNum + 1){
+            setMinimalSlash = 0;
+        }
 
         if(beforeSize * 1.5f > 35f) {
-            MainScene.get().score.add(100);
+            MainScene.get().score.add(50);
             MainScene.get().remove(this);
             Sound.playEffect(MainScene.SFX_DEATH_IDS[random.nextInt(MainScene.SFX_DEATH_IDS.length)]);
             return;
@@ -171,6 +244,7 @@ public class Slime extends Sprite implements Recyclable {
         ySpeed *= 0.7f;
         slashNum = beforeSlshNum + 1;
         paint.setColor(beforePaintNum);
+        minimalSlash = setMinimalSlash;
 
         Slime dSlime = new Slime();
         dSlime.init(beforeSize * 1.5f, slimeType);
@@ -180,6 +254,7 @@ public class Slime extends Sprite implements Recyclable {
         dSlime.ySpeed *= 0.7f;
         dSlime.slashNum = beforeSlshNum + 1;
         dSlime.paint.setColor(beforePaintNum);
+        dSlime.minimalSlash = setMinimalSlash;
         MainScene.get().add(MainScene.Layer.slime.ordinal(), dSlime);
     }
 
@@ -191,9 +266,16 @@ public class Slime extends Sprite implements Recyclable {
         rSpeed += rSpeed * frameTime;
 
         if (x > Metrics.width + Metrics.height / 10 || x < -Metrics.height / 10
-                || y > Metrics.height + Metrics.height / 10){
-           MainScene.get().remove(this);
-           return;
+                || y > Metrics.height + Metrics.height / 10) {
+
+            if(minimalSlash > slashNum){
+                MainScene.get().score.add(-(minimalSlash - slashNum) * (minimalSlash - slashNum));
+                if(MainScene.get().score.get() < 0){
+                    MainScene.get().score.set(0);
+                }
+            }
+            MainScene.get().remove(this);
+            return;
         }
 
         setDstRect(Metrics.height / fSize / 2, Metrics.height / fSize / 2);
@@ -201,6 +283,21 @@ public class Slime extends Sprite implements Recyclable {
 
     @Override
     public void draw(Canvas canvas) {
+
+        if(minimalSlash > slashNum){
+            Paint tempPaint = new Paint();
+            tempPaint.setColor(Color.BLACK);
+
+            canvas.save();
+
+            rect.set(x - Metrics.height / fSize / 2 - Metrics.height / fSize / 8, y - Metrics.height / fSize / 2 - Metrics.height / fSize / 8,
+                    x + Metrics.height / fSize / 2 + Metrics.height / fSize / 8, y + Metrics.height / fSize / 2 + Metrics.height / fSize / 8);
+            canvas.rotate(rSpeed, rect.centerX(), rect.centerY());
+            canvas.drawRoundRect(rect, Metrics.height / fSize / 8, Metrics.height / fSize / 8, tempPaint);
+
+            canvas.restore();
+        }
+
         canvas.save();
 
         rect.set(x - Metrics.height / fSize / 2, y - Metrics.height / fSize / 2,
