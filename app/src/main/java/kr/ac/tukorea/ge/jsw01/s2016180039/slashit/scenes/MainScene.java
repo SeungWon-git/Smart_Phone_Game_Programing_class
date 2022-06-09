@@ -112,7 +112,7 @@ public class MainScene extends Scene {
     }
 
     private void CheckGame() {
-        if(score.get() > 4000) {
+        if(score.get() > 2000) {
             stage++;
             if(stage <= 5) {
                 init();

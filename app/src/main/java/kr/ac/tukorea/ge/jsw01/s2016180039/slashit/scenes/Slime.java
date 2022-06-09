@@ -149,6 +149,7 @@ public class Slime extends Sprite implements Recyclable {
         }
         else if(MainScene.stage == 4) {
             rnd_size = random.nextInt(10);
+            rnd_type = random.nextInt(10);
 
             if(rnd_size < 2) {
                 size = Size.big;
@@ -160,7 +161,12 @@ public class Slime extends Sprite implements Recyclable {
                 size = Size.small;
             }
 
-            type = Type.RANDOM;
+            if(rnd_type < 4) {
+                type = Type.special_fast;
+            }
+            else{
+                type = Type.normal;
+            }
         }
         else if(MainScene.stage == 5) {
             rnd_size = random.nextInt(10);
