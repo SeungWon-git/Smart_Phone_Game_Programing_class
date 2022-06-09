@@ -15,7 +15,7 @@ public class SlimeGen implements GameObject {
     @Override
     public void update(float frameTime) {
         time += frameTime;
-        switch (MainScene.stage){
+        switch (MainScene.stage) {
             case 1:
                 genInterval = 3.0f;
                 break;

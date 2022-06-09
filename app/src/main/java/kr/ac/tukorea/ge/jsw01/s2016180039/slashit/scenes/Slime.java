@@ -225,9 +225,14 @@ public class Slime extends Sprite implements Recyclable {
         int beforeSlshNum = slashNum;
         int beforePaintNum = paint.getColor();
         int setMinimalSlash = minimalSlash;
+        float fastDivSpeed = 1;
 
         if(minimalSlash <= beforeSlshNum + 1){
             setMinimalSlash = 0;
+        }
+
+        if(slimeType == Type.special_fast){
+            fastDivSpeed = 2f;
         }
 
         if(beforeSize * 1.5f > 35f) {
@@ -240,7 +245,7 @@ public class Slime extends Sprite implements Recyclable {
         init(beforeSize * 1.5f, slimeType);
         x = beforeX;
         y = beforeY;
-        xSpeed = beforeXSpeed * 0.6f;
+        xSpeed = beforeXSpeed * 0.6f * fastDivSpeed;
         ySpeed *= 0.7f;
         slashNum = beforeSlshNum + 1;
         paint.setColor(beforePaintNum);
@@ -250,7 +255,7 @@ public class Slime extends Sprite implements Recyclable {
         dSlime.init(beforeSize * 1.5f, slimeType);
         dSlime.x = beforeX;
         dSlime.y = beforeY;
-        dSlime.xSpeed = -beforeXSpeed * 0.6f;
+        dSlime.xSpeed = -beforeXSpeed * 0.6f * fastDivSpeed;
         dSlime.ySpeed *= 0.7f;
         dSlime.slashNum = beforeSlshNum + 1;
         dSlime.paint.setColor(beforePaintNum);
@@ -292,6 +297,20 @@ public class Slime extends Sprite implements Recyclable {
 
             rect.set(x - Metrics.height / fSize / 2 - Metrics.height / fSize / 8, y - Metrics.height / fSize / 2 - Metrics.height / fSize / 8,
                     x + Metrics.height / fSize / 2 + Metrics.height / fSize / 8, y + Metrics.height / fSize / 2 + Metrics.height / fSize / 8);
+            canvas.rotate(rSpeed, rect.centerX(), rect.centerY());
+            canvas.drawRoundRect(rect, Metrics.height / fSize / 8, Metrics.height / fSize / 8, tempPaint);
+
+            canvas.restore();
+        }
+
+        if(slimeType == Type.special_fast){
+            Paint tempPaint = new Paint();
+            tempPaint.setColor(Color.YELLOW);
+
+            canvas.save();
+
+            rect.set(x - Metrics.height / fSize / 2 + Metrics.height / fSize / 8, y - Metrics.height / fSize / 2 + Metrics.height / fSize / 8,
+                    x + Metrics.height / fSize / 2 - Metrics.height / fSize / 8, y + Metrics.height / fSize / 2 - Metrics.height / fSize / 8);
             canvas.rotate(rSpeed, rect.centerX(), rect.centerY());
             canvas.drawRoundRect(rect, Metrics.height / fSize / 8, Metrics.height / fSize / 8, tempPaint);
 
