@@ -40,11 +40,11 @@
   * 관련 코드: [슬라임 클래스]()
 
 ### 📚 GameObject Layering을 활용
-  - GameObject Layering을 이용하여 게임 오브젝트들의 그리는 순서 정의하고 객체들 분류, 구조화
+  - GameObject Layering을 이용하여 게임 오브젝트들의 그리는 순서 정의하고 객체들을 분류, 구조화한다.
   * 관련 코드: [GameObject Layering 활용]()
 
 ### 👉📲 Touch Event Handling 활용
-  - Touch event handling을 이용하여 터치 입력에대한 처리 (→ 슬라임 자르기)
+  - Touch event handling을 이용하여 터치 입력에대한 처리 수행 (→ 슬라임 자르기)
   * 관련 코드: [슬라임 자르기]()
     
 ### 🗂️ 리소스 관리
