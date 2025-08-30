@@ -35,9 +35,18 @@
   * 관련 코드: [슬라임 재활용 코드](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/blob/606864cee5f3b1ed2a79c8dee249ed5706acb208/app/src/main/java/kr/ac/tukorea/ge/jsw01/s2016180039/slashit/scenes/Slime.java#L94), [재활용 구조](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/blob/606864cee5f3b1ed2a79c8dee249ed5706acb208/app/src/main/java/kr/ac/tukorea/ge/jsw01/framework/game/RecycleBin.java#L13)
 
 ### 🟢👁️ 슬라임
-  - 슬라임 종류(에 따른 특징), 크기에 따른 특징(속도), 슬라이스 횟수에 따른 점수차이, 스테이지별 차이
-    * 슬라임은 생성 될 때마다 랜덤한 효과음을 내며, 너무 크기가 작게 잘려 완전히 소멸할 때는 특별한 소리를 냄
-  * 관련 코드: [슬라임 클래스]()
+  - 슬라임은 랜덤하게 생성되는데, 이는 날라오는 방향, 날라오는 위치, 슬라임의 크기&속도, 슬라임의 모양&색상, 슬라임의 눈의 색상이 랜덤하다.
+  - 슬라임의 속도는 해당 슬라임의 크기에 따라 설정된다. (클 수록 느리고, 작을 수록 빠름)
+  - 슬라임은 연속으로 자르는 횟수에 따라 획득 점수가 높으며, 연속으로 많이 잘라서 슬라임의 크기가 일정 이하가 되면 최대점수를 획득하고 슬라임은 결국 소멸된다.
+    * 슬라임은 생성 될 때마다 랜덤한 효과음을 내며, 잘릴 때는 작은 물방울 파티클과 함께 2개의 더 작은 슬라임을 생성하고, 너무 크기가 작게 잘려 완전히 소멸할 때는 특별한 소리를 낸다.
+  - 슬라임의 종류는 총 3가지로 '일반 슬라임, 감점 슬라임, 가속 슬라임' 이 존재한다.
+  - 
+    <img width="180" height="162" alt="image" src="https://github.com/user-attachments/assets/f1fe4b4a-f10c-4f58-8682-de2adaa2c53b" />
+    <img width="172" height="166" alt="image" src="https://github.com/user-attachments/assets/20faebbd-c99c-4dd7-8b2a-3eea00f3d797" />
+    <img width="141" height="143" alt="image" src="https://github.com/user-attachments/assets/e3dfd19d-806f-4339-94ec-59cb6e7183a6" />
+
+  - 스테이지 진행 될 수록 크기가 더 작고 빠른 슬라임들이 더 자주 생성되며, 특수 슬라임 또한 더 많이 나온다.    
+  * 관련 코드: [슬라임 랜덤 생성](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/blob/5f8ebe96361c96374d1f56729029fd6646074c82/app/src/main/java/kr/ac/tukorea/ge/jsw01/s2016180039/slashit/scenes/Slime.java#L51)
 
 ### 📚 GameObject Layering을 활용
   - GameObject Layering을 이용하여 게임 오브젝트들의 그리는 순서 정의하고 객체들을 분류, 구조화한다.
