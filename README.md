@@ -24,15 +24,15 @@
    
 ### 🎨 Custom View 컴포넌트 활용
   - Custom View 컴포넌트를 만들어 게임 내 여러가지 UI에 커스텀 이미지, 애니메이션을 적용
-  * 관련 코드: [스코어 애니메이션](), [남은 시간 게이지 애니메이션](), [스테이지 표시 애니메이션]()
+  * 관련 코드: [스코어 애니메이션](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/blob/606864cee5f3b1ed2a79c8dee249ed5706acb208/app/src/main/java/kr/ac/tukorea/ge/jsw01/framework/objects/Score.java#L48), [남은 시간 게이지 애니메이션](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/blob/main/app/src/main/java/kr/ac/tukorea/ge/jsw01/framework/util/Gauge.java), [스테이지 표시 애니메이션](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/blob/main/app/src/main/java/kr/ac/tukorea/ge/jsw01/s2016180039/slashit/scenes/StageDisplay.java)
     
 ### 📦 Framework Class 정의
   - Scene, Interfaces, GameObjects와 같은 다양한 **프레임워크 객체를 미리 정의**하고, 이를 상속받아 활용함으로써 객체의 효율적인 생성과 관리를 구현
-  * 관련 코드: [프레임워크 폴더]()
+  * 관련 코드: [프레임워크 폴더](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/tree/main/app/src/main/java/kr/ac/tukorea/ge/jsw01/framework)
     
 ### ♻️ Recyclable 객체 활용
   - Recyclable 객체를 이용하여 객체의 **재활용**을 통해 ***메모리 사용 효율 극대화***
-  * 관련 코드: [슬라임 재활용 코드]()
+  * 관련 코드: [슬라임 재활용 코드](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/blob/606864cee5f3b1ed2a79c8dee249ed5706acb208/app/src/main/java/kr/ac/tukorea/ge/jsw01/s2016180039/slashit/scenes/Slime.java#L94), [재활용 구조](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/blob/606864cee5f3b1ed2a79c8dee249ed5706acb208/app/src/main/java/kr/ac/tukorea/ge/jsw01/framework/game/RecycleBin.java#L13)
 
 ### 🟢👁️ 슬라임
   - 슬라임 종류(에 따른 특징), 크기에 따른 특징(속도), 슬라이스 횟수에 따른 점수차이, 스테이지별 차이
@@ -41,15 +41,15 @@
 
 ### 📚 GameObject Layering을 활용
   - GameObject Layering을 이용하여 게임 오브젝트들의 그리는 순서 정의하고 객체들을 분류, 구조화한다.
-  * 관련 코드: [GameObject Layering 활용]()
+  * 관련 코드: [GameObject Layering 적용](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/blob/606864cee5f3b1ed2a79c8dee249ed5706acb208/app/src/main/java/kr/ac/tukorea/ge/jsw01/framework/game/Scene.java#L125), [GameObject Layering 설정](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/blob/606864cee5f3b1ed2a79c8dee249ed5706acb208/app/src/main/java/kr/ac/tukorea/ge/jsw01/s2016180039/slashit/scenes/MainScene.java#L29)
 
 ### 👉📲 Touch Event Handling 활용
   - Touch event handling을 이용하여 터치 입력에대한 처리 수행 (→ 슬라임 자르기)
-  * 관련 코드: [슬라임 자르기]()
+  * 관련 코드: [슬라임 자르기](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/blob/606864cee5f3b1ed2a79c8dee249ed5706acb208/app/src/main/java/kr/ac/tukorea/ge/jsw01/s2016180039/slashit/scenes/MainScene.java#L153), [슬라임 슬라이스 실제 반응](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/blob/606864cee5f3b1ed2a79c8dee249ed5706acb208/app/src/main/java/kr/ac/tukorea/ge/jsw01/s2016180039/slashit/scenes/Slime.java#L202)
     
 ### 🗂️ 리소스 관리
   - SoundPool, BitMapPool을 이용하여 리소스 관리
-  * 관련 코드: [SoundPool class](), [BitMapPool을 class]()
+  * 관련 코드: [SoundPool class](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/blob/606864cee5f3b1ed2a79c8dee249ed5706acb208/app/src/main/java/kr/ac/tukorea/ge/jsw01/framework/res/Sound.java), [BitMapPool을 class](https://github.com/SeungWon-git/Smart_Phone_Game_Programing_class/blob/606864cee5f3b1ed2a79c8dee249ed5706acb208/app/src/main/java/kr/ac/tukorea/ge/jsw01/framework/res/BitmapPool.java)
     
 
 ---
